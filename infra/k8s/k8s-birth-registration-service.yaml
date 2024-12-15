@@ -1,0 +1,65 @@
+# 1. Persistent Volume Claim for Birth Registration Service
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#     name: birth-registration-db-pvc
+# spec:
+#     accessModes:
+#         - ReadWriteOnce
+#     resources:
+#         requests:
+#             storage: 1Gi
+
+---
+# 2. Deployment for Birth Registration Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: birth-registration-service
+    labels:
+        app: birth-registration-service
+spec:
+    selector:
+        matchLabels:
+            app: birth-registration-service
+    template:
+        metadata:
+            labels:
+                app: birth-registration-service
+        spec:
+            containers:
+                - name: birth-registration-service
+                  image: msbihaladdin/birth-registration-service:latest
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 3003
+                #   volumeMounts:
+                #       - name: birth-registration-db-storage
+                #         mountPath: /app/birth-registrations-db.json
+                #         subPath: birth-registrations-db.json
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: 128Mi
+                      limits:
+                          cpu: 250m
+                          memory: 256Mi
+            # volumes:
+            #     - name: birth-registration-db-storage
+            #       persistentVolumeClaim:
+            #           claimName: birth-registration-db-pvc
+
+---
+# 3. Service for Birth Registration Service
+apiVersion: v1
+kind: Service
+metadata:
+    name: birth-registration-service
+spec:
+    selector:
+        app: birth-registration-service
+    ports:
+        - protocol: TCP
+          port: 3003
+          targetPort: 3003
+    type: ClusterIP

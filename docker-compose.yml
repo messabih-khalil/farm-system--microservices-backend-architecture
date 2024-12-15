@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+    api-gateway:
+        build:
+            context: ./services/auth-api-gateway
+            dockerfile: Dockerfile
+        image: msbihaladdin/api-gateway:latest
+        container_name: api-gateway
+        ports:
+            - '3000:3000'
+        env_file:
+            - ./services/auth-api-gateway/.env
+        environment:
+            - NODE_ENV=production
+            
+        restart: unless-stopped
+
+    cattle-service:
+        build:
+            context: ./services/cattle-service
+            dockerfile: Dockerfile
+        image: msbihaladdin/cattle-service:latest
+        ports:
+            - '3001:3001'
+        environment:
+            - NODE_ENV=production
+        restart: unless-stopped
+
+    medical-examination-service:
+        build:
+            context: ./services/medical-examination-service
+            dockerfile: Dockerfile
+        image: msbihaladdin/medical-examination-service:latest
+        ports:
+            - '3002:3002'
+        environment:
+            - NODE_ENV=production
+        restart: unless-stopped
+
+    birth-registration-service:
+        build:
+            context: ./services/birth-registration-service
+            dockerfile: Dockerfile
+        image: msbihaladdin/birth-registration-service:latest
+        ports:
+            - '3003:3003'
+        environment:
+            - NODE_ENV=production
+        restart: unless-stopped
+
+    milk-production-service:
+        build:
+            context: ./services/milk-production-service
+            dockerfile: Dockerfile
+        image: msbihaladdin/milk-production-service:latest
+        ports:
+            - '3004:3004'
+        environment:
+            - NODE_ENV=production
+        restart: unless-stopped

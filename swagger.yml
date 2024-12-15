@@ -1,0 +1,353 @@
+openapi: 3.0.1
+info:
+    title: Farm Management API
+    description: API for managing birth registrations, cattle, medical examinations, and milk production.
+    version: 1.0.0
+servers:
+    - url: http://localhost:30080/api
+      description: Local server
+
+paths:
+    /birth/birth-registrations:
+        post:
+            summary: Register a new birth
+            requestBody:
+                description: Data for creating a birth registration
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateBirthDto'
+            responses:
+                '201':
+                    description: Birth registration created successfully
+                '400':
+                    description: Bad request
+        get:
+            summary: Get all birth registrations
+            responses:
+                '200':
+                    description: A list of birth registrations
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/CreateBirthDto'
+                '500':
+                    description: Internal server error
+    /birth/birth-registrations/{id}:
+        patch:
+            summary: Update a birth registration
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                  description: ID of the birth registration to update
+            requestBody:
+                description: Data to update the birth registration
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateBirthDto'
+            responses:
+                '200':
+                    description: Birth registration updated successfully
+                '400':
+                    description: Bad request
+                '404':
+                    description: Birth registration not found
+        delete:
+            summary: Delete a birth registration
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                  description: ID of the birth registration to delete
+            responses:
+                '204':
+                    description: Birth registration deleted successfully
+                '404':
+                    description: Birth registration not found
+
+    /cattles/cattle:
+        post:
+            summary: Register a new cattle
+            requestBody:
+                description: Data for creating a cattle record
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateCattleDto'
+            responses:
+                '201':
+                    description: Cattle created successfully
+                '400':
+                    description: Bad request
+        get:
+            summary: Get all cattle records
+            responses:
+                '200':
+                    description: A list of cattle records
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/CreateCattleDto'
+                '500':
+                    description: Internal server error
+    /cattles/cattle/{id}:
+        patch:
+            summary: Update a cattle record
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                  description: ID of the cattle to update
+            requestBody:
+                description: Data to update the cattle record
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateCattleDto'
+            responses:
+                '200':
+                    description: Cattle record updated successfully
+                '400':
+                    description: Bad request
+                '404':
+                    description: Cattle not found
+        delete:
+            summary: Delete a cattle record
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                  description: ID of the cattle to delete
+            responses:
+                '204':
+                    description: Cattle deleted successfully
+                '404':
+                    description: Cattle not found
+
+    /medical/medical-examinations:
+        post:
+            summary: Register a new medical examination
+            requestBody:
+                description: Data for creating a medical examination record
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateMedicalExaminationDto'
+            responses:
+                '201':
+                    description: Medical examination created successfully
+                '400':
+                    description: Bad request
+        get:
+            summary: Get all medical examination records
+            responses:
+                '200':
+                    description: A list of medical examination records
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/CreateMedicalExaminationDto'
+                '500':
+                    description: Internal server error
+    /medical/medical-examinations/{id}:
+        patch:
+            summary: Update a medical examination record
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                  description: ID of the medical examination record to update
+            requestBody:
+                description: Data to update the medical examination record
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateMedicalExaminationDto'
+            responses:
+                '200':
+                    description: Medical examination record updated successfully
+                '400':
+                    description: Bad request
+                '404':
+                    description: Medical examination not found
+        delete:
+            summary: Delete a medical examination record
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                  description: ID of the medical examination record to delete
+            responses:
+                '204':
+                    description: Medical examination record deleted successfully
+                '404':
+                    description: Medical examination not found
+
+    /milk/milk-production:
+        post:
+            summary: Record new milk production data
+            requestBody:
+                description: Data for recording milk production
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateMilkProductionDto'
+            responses:
+                '201':
+                    description: Milk production data created successfully
+                '400':
+                    description: Bad request
+        get:
+            summary: Get all milk production records
+            responses:
+                '200':
+                    description: A list of milk production records
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/CreateMilkProductionDto'
+                '500':
+                    description: Internal server error
+    /milk/milk-production/{id}:
+        patch:
+            summary: Update milk production data
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                  description: ID of the milk production record to update
+            requestBody:
+                description: Data to update the milk production record
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                date:
+                                    type: string
+                                    format: date
+                                    description: Date of the milk production record
+                                milkQuantityLiters:
+                                    type: number
+                                    description: Quantity of milk produced in liters
+            responses:
+                '200':
+                    description: Milk production record updated successfully
+                '400':
+                    description: Bad request
+                '404':
+                    description: Milk production record not found
+        delete:
+            summary: Delete a milk production record
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                  description: ID of the milk production record to delete
+            responses:
+                '204':
+                    description: Milk production record deleted successfully
+                '404':
+                    description: Milk production record not found
+
+components:
+    schemas:
+        CreateBirthDto:
+            type: object
+            properties:
+                motherCattleNumber:
+                    type: string
+                    description: Cattle number of the mother
+                birthDate:
+                    type: string
+                    format: date
+                    description: Date of birth
+            required:
+                - motherCattleNumber
+                - birthDate
+
+        CreateCattleDto:
+            type: object
+            properties:
+                cattleNumber:
+                    type: string
+                    description: Unique number for the cattle
+                entryDate:
+                    type: string
+                    format: date
+                    description: Date when the cattle entered the farm
+                breed:
+                    type: string
+                    enum:
+                        - Holstein
+                        - Montbeliarde
+                    description: Breed of the cattle
+            required:
+                - cattleNumber
+                - entryDate
+                - breed
+
+        CreateMedicalExaminationDto:
+            type: object
+            properties:
+                cattleNumber:
+                    type: string
+                    description: Cattle number associated with the examination
+                examinationDate:
+                    type: string
+                    format: date
+                    description: Date of the medical examination
+                disease:
+                    type: string
+                    description: Optional disease diagnosed during examination
+            required:
+                - cattleNumber
+                - examinationDate
+
+        CreateMilkProductionDto:
+            type: object
+            properties:
+                date:
+                    type: string
+                    format: date
+                    description: Date of the milk production record
+                milkQuantityLiters:
+                    type: number
+                    description: Quantity of milk produced in liters
+            required:
+                - date
+                - milkQuantityLiters

@@ -1,0 +1,47 @@
+---
+# 1. Deployment for Auth API Gateway
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: auth-api-gateway
+    labels:
+        app: auth-api-gateway
+spec:
+
+    selector:
+        matchLabels:
+            app: auth-api-gateway
+    template:
+        metadata:
+            labels:
+                app: auth-api-gateway
+        spec:
+            containers:
+                - name: auth-api-gateway
+                  image: msbihaladdin/api-gateway:latest
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 8080
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: 128Mi
+                      limits:
+                          cpu: 250m
+                          memory: 256Mi
+
+---
+# 2. NodePort Service for Auth API Gateway
+apiVersion: v1
+kind: Service
+metadata:
+    name: auth-api-gateway
+spec:
+    selector:
+        app: auth-api-gateway
+    ports:
+        - protocol: TCP
+          port: 3000
+          targetPort: 3000
+          nodePort: 30080 
+    type: NodePort

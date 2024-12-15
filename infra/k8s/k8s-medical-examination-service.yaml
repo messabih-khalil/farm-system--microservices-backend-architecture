@@ -1,0 +1,66 @@
+# 1. Persistent Volume Claim for Medical Examination Service
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#     name: medical-examination-db-pvc
+# spec:
+#     accessModes:
+#         - ReadWriteOnce
+#     resources:
+#         requests:
+#             storage: 1Gi
+
+---
+# 2. Deployment for Medical Examination Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: medical-examination-service
+    labels:
+        app: medical-examination-service
+spec:
+
+    selector:
+        matchLabels:
+            app: medical-examination-service
+    template:
+        metadata:
+            labels:
+                app: medical-examination-service
+        spec:
+            containers:
+                - name: medical-examination-service
+                  image: msbihaladdin/medical-examination-service:latest
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 3002
+                #   volumeMounts:
+                #       - name: medical-examination-db-storage
+                #         mountPath: /app/medical-examinations-db.json
+                #         subPath: medical-examinations-db.json
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: 128Mi
+                      limits:
+                          cpu: 250m
+                          memory: 256Mi
+            # volumes:
+            #     - name: medical-examination-db-storage
+            #       persistentVolumeClaim:
+            #           claimName: medical-examination-db-pvc
+
+---
+# 3. Service for Medical Examination Service
+apiVersion: v1
+kind: Service
+metadata:
+    name: medical-examination-service
+spec:
+    selector:
+        app: medical-examination-service
+    ports:
+        - protocol: TCP
+          port: 3002
+          targetPort: 3002
+    type: ClusterIP

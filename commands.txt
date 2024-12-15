@@ -1,0 +1,13 @@
+# Build each service image
+docker-compose build
+
+# Apply all configurations
+kubectl apply -f k8s-cattle-service.yaml
+kubectl apply -f k8s-medical-examination-service.yaml
+kubectl apply -f k8s-birth-registration-service.yaml
+kubectl apply -f k8s-milk-production-service.yaml
+
+# Verify deployment
+kubectl get deployments
+kubectl get services
+kubectl get ingress

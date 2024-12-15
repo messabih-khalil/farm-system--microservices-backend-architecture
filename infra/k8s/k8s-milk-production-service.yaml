@@ -1,0 +1,53 @@
+# 2. Deployment for Milk Production Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: milk-production-service
+    labels:
+        app: milk-production-service
+spec:
+
+    selector:
+        matchLabels:
+            app: milk-production-service
+    template:
+        metadata:
+            labels:
+                app: milk-production-service
+        spec:
+            containers:
+                - name: milk-production-service
+                  image: msbihaladdin/milk-production-service:latest
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 3004
+                #   volumeMounts:
+                #       - name: milk-production-db-storage
+                #         mountPath: /app/milk-production-db.json
+                #         subPath: milk-production-db.json
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: 128Mi
+                      limits:
+                          cpu: 250m
+                          memory: 256Mi
+            # volumes:
+            #     - name: milk-production-db-storage
+            #       persistentVolumeClaim:
+            #           claimName: milk-production-db-pvc
+
+---
+# 3. Service for Milk Production Service
+apiVersion: v1
+kind: Service
+metadata:
+    name: milk-production-service
+spec:
+    selector:
+        app: milk-production-service
+    ports:
+        - protocol: TCP
+          port: 3004
+          targetPort: 3004
+    type: ClusterIP

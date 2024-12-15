@@ -1,0 +1,56 @@
+{
+    "compilerOptions": {
+        // Basic Compiler Options
+        "target": "es2020", // Target modern JavaScript features
+        "module": "commonjs", // Use CommonJS module system
+        "lib": ["es2020"], // Include modern ES library types
+        "outDir": "./dist", // Output compiled files to dist folder
+        "rootDir": "./src", // Source files are in src folder
+
+        // Strict Typing
+        "strict": true, // Enable all strict type checking options
+        "noImplicitAny": true, // Raise error on implicit 'any' type
+        "strictNullChecks": true, // Enable strict null checks
+        "strictFunctionTypes": true, // Strict function type checking
+        "strictBindCallApply": true, // Strict checks for bind, call, and apply
+        "strictPropertyInitialization": true, // Ensure class properties are initialized
+
+        // Additional Checks
+
+        
+        "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch
+
+        // Module Resolution
+        "moduleResolution": "node", // Use Node.js-style module resolution
+        "esModuleInterop": true, // Allow default imports from CommonJS modules
+        "resolveJsonModule": true, // Allow importing JSON files
+        "baseUrl": ".", // Base directory for non-relative module names
+        "paths": {
+            "*": ["node_modules/*", "src/types/*"] // Additional module path mappings
+        },
+
+        // Source Maps and Debugging
+        "sourceMap": true, // Generate source map files
+        "inlineSources": true, // Include source content in source maps
+
+        // Type Declaration
+        "declaration": false, // Don't generate .d.ts files
+        "allowSyntheticDefaultImports": true, // Allow default imports from modules without default export
+
+        // Runtime Behavior
+        "experimentalDecorators": true, // Enable experimental support for decorators
+        "emitDecoratorMetadata": true, // Emit design-type metadata for decorated declarations
+
+        // Misc
+        "skipLibCheck": true, // Skip type checking of declaration files
+        "forceConsistentCasingInFileNames": true // Ensure consistent casing in imports
+    },
+    "include": [
+        "src/**/*" // Include all files in src directory
+    ],
+    "exclude": [
+        "node_modules", // Exclude node_modules
+        "dist", // Exclude distribution folder
+        "**/*.spec.ts" // Exclude test files
+    ]
+}

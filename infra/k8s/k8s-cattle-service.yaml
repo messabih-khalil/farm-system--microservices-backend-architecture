@@ -1,0 +1,66 @@
+# 1. Persistent Volume Claim for Cattle Service
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#     name: cattle-db-pvc
+# spec:
+#     accessModes:
+#         - ReadWriteOnce
+#     resources:
+#         requests:
+#             storage: 1Gi
+
+---
+# 2. Deployment for Cattle Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: cattle-service
+    labels:
+        app: cattle-service
+spec:
+
+    selector:
+        matchLabels:
+            app: cattle-service
+    template:
+        metadata:
+            labels:
+                app: cattle-service
+        spec:
+            containers:
+                - name: cattle-service
+                  image: msbihaladdin/cattle-service:latest
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 3001
+                #   volumeMounts:
+                #       - name: cattle-db-storage
+                #         mountPath: /app/cattle-db.json
+                #         subPath: cattle-db.json
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: 128Mi
+                      limits:
+                          cpu: 250m
+                          memory: 256Mi
+            # volumes:
+            #     - name: cattle-db-storage
+            #       persistentVolumeClaim:
+            #           claimName: cattle-db-pvc
+
+---
+# 3. Service for Cattle Service
+apiVersion: v1
+kind: Service
+metadata:
+    name: cattle-service
+spec:
+    selector:
+        app: cattle-service
+    ports:
+        - protocol: TCP
+          port: 3001
+          targetPort: 3001
+    type: ClusterIP
